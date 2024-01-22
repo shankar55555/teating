@@ -235,3 +235,68 @@ Route::prefix('booking')->group(function () {
 // });
 
 
+<template>
+  <div v-for="(hotel, index) in hotelData" :key="index" class="card rounded-4 border-0 mb-3">
+    <!-- ... other HTML code ... -->
+    <div class="card-body border-top mt-3" id="form" v-show="divStates[index]">
+      <form role="form">
+        <!-- ... other form fields ... -->
+        <div class="col mt-3 mb-4 form-floating">
+          <select v-model="hotelForms[index].numberOfRooms" class="form-select" id="floatingSelectGridRooms" @change="updateResult">
+            <!-- ... options ... -->
+          </select>
+          <label for="floatingSelectGridRooms">Select no of rooms</label>
+        </div>
+        <div class="row">
+          <div class="col mt-3 mb-4 form-floating">
+            <input type="text" v-model="hotelForms[index].result" class="form-control" id="floatingSelectGridAdults">
+            <label for="floatingSelectGridAdults">Adults</label>
+          </div>
+          <!-- ... other form fields ... -->
+        </div>
+        <!-- ... other form fields ... -->
+      </form>
+      <!-- ... Additional form elements ... -->
+      <div class="book_section d-flex justify-content-between align-items-center" id="book_price">
+        <div class="price_cont">
+          <span class="price"><strong id="calculate_price">Price :-</strong> ₹{{ calculateTotalPrice(index) }}</span>
+        </div>
+        <div class="book_btn">
+          <button class="btn rounded-pill border_btn" @click="submit(hotel.cat_id, index)">Book</button>
+        </div>
+      </div>
+      <div id="summary_price_continue" style="display:none;">
+        <!-- ... Additional summary elements ... -->
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      hotelData: [
+        // Your array of hotel objects
+      ],
+      hotelForms: Array.from({ length: this.hotelData.length }, () => ({
+        numberOfRooms: 1,  // Default values for each form field
+        result: '',
+        // ... other form fields ...
+      })),
+      divStates: Array.from({ length: this.hotelData.length }, () => false),
+    };
+  },
+  methods: {
+    toggleClass(index) {
+      // Toggle the visibility state for the clicked hotel
+      this.$set(this.divStates, index, !this.divStates[index]);
+    },
+    // ... other methods ...
+  },
+};
+</script>
+
+<style scoped>
+  /* Add your scoped styles here */
+</style>
